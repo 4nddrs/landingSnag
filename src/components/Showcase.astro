@@ -1,0 +1,439 @@
+---
+const groups = [
+  {
+    name: "AUTH",
+    endpoints: [
+      { method: "POST", path: "/auth/login" },
+      { method: "POST", path: "/auth/logout" },
+      { method: "GET", path: "/auth/me" },
+    ],
+  },
+  {
+    name: "CATEGORIES",
+    endpoints: [
+      { method: "GET", path: "/categories" },
+      { method: "POST", path: "/categories" },
+      { method: "GET", path: "/categories/{category_id}" },
+      { method: "PUT", path: "/categories/{category_id}" },
+      { method: "DELETE", path: "/categories/{category_id}" },
+    ],
+  },
+  {
+    name: "COUPONS",
+    endpoints: [
+      { method: "GET", path: "/coupons" },
+      { method: "POST", path: "/coupons" },
+      { method: "GET", path: "/coupons/{code}" },
+      { method: "DELETE", path: "/coupons/{coupon_id}" },
+      { method: "PATCH", path: "/coupons/{coupon_id}/deactivate" },
+    ],
+  },
+  {
+    name: "ORDERS",
+    endpoints: [
+      { method: "GET", path: "/orders" },
+      { method: "POST", path: "/orders" },
+    ],
+  },
+  {
+    name: "PRODUCTS",
+    endpoints: [
+      { method: "GET", path: "/products" },
+      { method: "POST", path: "/products" },
+      { method: "GET", path: "/products/{product_id}" },
+      { method: "PATCH", path: "/products/{product_id}/stock" },
+    ],
+  },
+  {
+    name: "REVIEWS",
+    endpoints: [
+      { method: "GET", path: "/reviews" },
+      { method: "POST", path: "/reviews" },
+      { method: "GET", path: "/reviews/{review_id}" },
+      { method: "PUT", path: "/reviews/{review_id}" },
+      { method: "DELETE", path: "/reviews/{review_id}" },
+    ],
+  },
+  {
+    name: "SYSTEM",
+    endpoints: [
+      { method: "GET", path: "/health" },
+      { method: "GET", path: "/stats" },
+      { method: "DELETE", path: "/stats/reset" },
+    ],
+  },
+  {
+    name: "TAGS",
+    endpoints: [
+      { method: "GET", path: "/tags" },
+      { method: "POST", path: "/tags" },
+      { method: "PUT", path: "/tags/{tag_id}" },
+      { method: "DELETE", path: "/tags/{tag_id}" },
+    ],
+  },
+  {
+    name: "USERS",
+    endpoints: [{ method: "GET", path: "/users", active: true }],
+  },
+];
+
+const methodColor: Record<string, string> = {
+  GET: "#a6e3a1",
+  POST: "#f9e2af",
+  DELETE: "#f38ba8",
+  PUT: "#89b4fa",
+  PATCH: "#fab387",
+};
+
+const users = [
+  { id: 1, name: "Alice Johnson", email: "alice@example.com", age: 30 },
+  { id: 2, name: "Bob Smith", email: "bob@example.com", age: 25 },
+  { id: 3, name: "Carol White", email: "carol@example.com", age: 35 },
+  { id: 4, name: "andres", email: "4nddrs@gmail.com", age: 21 },
+];
+
+import trailerUrl from "../assets/trailerSnag.mov";
+---
+
+<section id="showcase" class="py-24 px-4 flex flex-col items-center">
+  <div class="max-w-6xl w-full mx-auto">
+    <!-- Section header -->
+    <div class="text-center mb-12 reveal">
+      <p
+        class="text-xs text-[#89dceb] tracking-widest uppercase mb-3 font-medium"
+      >
+        // Interactive Demo
+      </p>
+      <h2 class="text-3xl md:text-4xl font-bold text-[#cdd6f4]">
+        See it in action
+      </h2>
+      <p class="text-[#585b70] text-sm mt-3 max-w-sm mx-auto">
+        Three-panel TUI — browse grouped endpoints, inspect requests, read
+        responses.
+      </p>
+
+      <!-- Tabs -->
+      <div
+        class="flex items-center justify-center gap-1 mt-8 p-1 rounded-lg bg-[#0d0d14] border border-[#313244] w-fit mx-auto"
+      >
+        <button
+          id="tab-demo"
+          onclick="switchTab('demo')"
+          class="px-5 py-1.5 rounded-md text-xs font-medium transition-all duration-200 tab-active"
+        >
+          <span class="flex items-center gap-2">
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              ><rect x="2" y="3" width="20" height="14" rx="2"></rect><path
+                d="M8 21h8M12 17v4"></path></svg
+            >
+            TUI
+          </span>
+        </button>
+        <button
+          id="tab-trailer"
+          onclick="switchTab('trailer')"
+          class="px-5 py-1.5 rounded-md text-xs font-medium transition-all duration-200 tab-inactive"
+        >
+          <span class="flex items-center gap-2">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"
+              ><polygon points="5 3 19 12 5 21 5 3"></polygon></svg
+            >
+            Trailer
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Terminal window -->
+    <div
+      id="panel-demo"
+      class="reveal rounded-xl border border-[#313244] bg-[#0d0d14] overflow-hidden"
+      style="box-shadow: 0 0 60px rgba(137,220,235,0.07), 0 25px 60px rgba(0,0,0,0.6);"
+    >
+      <!-- ── Top title bar ── -->
+      <div
+        class="flex items-center gap-3 px-4 py-2.5 bg-[#181825] border-b border-[#313244]"
+      >
+        <span class="w-3 h-3 rounded-full bg-[#f38ba8]"></span>
+        <span class="w-3 h-3 rounded-full bg-[#f9e2af]"></span>
+        <span class="w-3 h-3 rounded-full bg-[#a6e3a1]"></span>
+        <div class="flex-1 flex items-center justify-center gap-3 text-xs">
+          <span class="text-[#89dceb] font-bold">⚡ SNAG</span>
+          <span class="text-[#45475a]">Example APIs for SNAG v1.0.1</span>
+        </div>
+      </div>
+
+      <!-- ── Main area: left endpoints + right request/response ── -->
+      <div class="grid grid-cols-1 lg:grid-cols-[260px_1fr] min-h-[460px]">
+        <!-- LEFT: Endpoints -->
+        <div
+          class="border-b lg:border-b-0 lg:border-r border-[#313244] flex flex-col"
+        >
+          <div class="px-3 py-1.5 border-b border-[#313244] bg-[#13131f]">
+            <span class="text-[#89dceb] text-[11px] font-bold">■ Endpoints</span
+            >
+          </div>
+          <div
+            class="overflow-y-auto flex-1 py-1 snag-scroll"
+            style="max-height: 430px;"
+          >
+            {
+              groups.map((group) => (
+                <div>
+                  <div class="flex items-center gap-1.5 px-3 py-[3px] mt-1">
+                    <span class="text-[#89dceb] text-[10px]">▼</span>
+                    <span class="text-[#89dceb] text-[11px] font-bold italic tracking-wider">
+                      {group.name}
+                    </span>
+                  </div>
+                  {group.endpoints.map(
+                    (ep: {
+                      method: string;
+                      path: string;
+                      active?: boolean;
+                    }) => (
+                      <div
+                        class={`flex items-center pl-3 pr-2 py-[3px] text-[11px] font-mono cursor-default ${ep.active ? "bg-[#1e1e2e]" : "hover:bg-[#13131f]"}`}
+                      >
+                        <span
+                          class={`w-4 shrink-0 text-[#89dceb] ${ep.active ? "opacity-100" : "opacity-0"}`}
+                        >
+                          &gt;
+                        </span>
+                        <span
+                          class="w-[54px] shrink-0 font-bold text-[10px]"
+                          style={`color: ${methodColor[ep.method]};`}
+                        >
+                          {ep.method}
+                        </span>
+                        <span
+                          class={`truncate text-[10px] ${ep.active ? "text-[#cdd6f4]" : "text-[#6c7086]"}`}
+                        >
+                          {ep.path}
+                        </span>
+                      </div>
+                    ),
+                  )}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- RIGHT: Request (top) + Response (bottom) -->
+        <div class="flex flex-col">
+          <!-- Request -->
+          <div class="border-b border-[#313244]">
+            <div class="px-3 py-1.5 border-b border-[#313244] bg-[#13131f]">
+              <span class="text-[#f9e2af] text-[11px] font-bold">✏ Request</span
+              >
+            </div>
+            <div class="px-5 py-4 font-mono">
+              <div class="flex items-baseline gap-2 mb-1 text-sm">
+                <span class="font-bold text-[#a6e3a1]">GET</span>
+                <span class="text-[#cdd6f4]">/users</span>
+              </div>
+              <div class="text-[#585b70] text-xs mb-4">Get all users</div>
+              <div class="text-[#45475a] text-xs italic">
+                No parameters required
+              </div>
+            </div>
+          </div>
+
+          <!-- Response — cyan border = focused panel -->
+          <div
+            class="flex-1 flex flex-col border border-[#89dceb]/40 m-2 rounded-sm"
+          >
+            <div
+              class="px-3 py-1.5 border-b border-[#89dceb]/20 bg-[#13131f] flex items-center gap-2"
+            >
+              <span class="text-[#89dceb] text-[11px] font-bold"
+                >🔍 Response</span
+              >
+              <span class="text-[#a6e3a1] text-[10px] ml-0.5">75%</span>
+            </div>
+            <div
+              class="flex-1 overflow-y-auto px-5 py-3 font-mono text-[11px] leading-[1.75] snag-scroll"
+              style="max-height: 280px;"
+            >
+              {
+                users.map((u, i) => (
+                  <div>
+                    <>
+                      <span class="text-[#cdd6f4]">{"{"}</span>
+                      <br />
+                    </>
+                    <>
+                      <span class="pl-6 text-[#f9e2af]">"age"</span>
+                      <span class="text-[#cdd6f4]">: </span>
+                      <span class="text-[#89dceb]">{u.age}</span>
+                      <span class="text-[#cdd6f4]">,</span>
+                      <br />
+                    </>
+                    <>
+                      <span class="pl-6 text-[#f9e2af]">"email"</span>
+                      <span class="text-[#cdd6f4]">: </span>
+                      <span class="text-[#a6e3a1]">"{u.email}"</span>
+                      <span class="text-[#cdd6f4]">,</span>
+                      <br />
+                    </>
+                    <>
+                      <span class="pl-6 text-[#f9e2af]">"id"</span>
+                      <span class="text-[#cdd6f4]">: </span>
+                      <span class="text-[#89dceb]">{u.id}</span>
+                      <span class="text-[#cdd6f4]">,</span>
+                      <br />
+                    </>
+                    <>
+                      <span class="pl-6 text-[#f9e2af]">"name"</span>
+                      <span class="text-[#cdd6f4]">: </span>
+                      <span class="text-[#a6e3a1]">"{u.name}"</span>
+                      <br />
+                    </>
+                    <>
+                      <span class="text-[#cdd6f4]">
+                        {"}"}
+                        {i < users.length - 1 ? "," : ""}
+                      </span>
+                      <br />
+                    </>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Bottom keybindings bar ── -->
+      <div
+        class="flex items-center flex-wrap gap-y-1 px-4 py-2 bg-[#181825] border-t border-[#313244] text-[10px] font-mono"
+      >
+        <span class="text-[#89dceb]">j/k</span><span
+          class="text-[#45475a] mx-1.5">scroll</span
+        >
+        <span class="text-[#45475a] mx-1">·</span>
+        <span class="text-[#89dceb]">d/u</span><span
+          class="text-[#45475a] mx-1.5">page</span
+        >
+        <span class="text-[#45475a] mx-1">·</span>
+        <span class="text-[#89dceb]">g/G</span><span
+          class="text-[#45475a] mx-1.5">top/bottom</span
+        >
+        <span class="text-[#45475a] mx-1">·</span>
+        <span class="text-[#89dceb]">y</span><span class="text-[#45475a] mx-1.5"
+          >copy</span
+        >
+        <span class="text-[#45475a] mx-1">·</span>
+        <span class="text-[#89dceb]">tab</span><span
+          class="text-[#45475a] mx-1.5">switch panel</span
+        >
+        <span class="ml-auto text-[#a6e3a1] font-bold">200</span>
+        <span class="text-[#585b70] ml-1">5ms</span>
+      </div>
+    </div>
+
+    <!-- Trailer panel -->
+    <div
+      id="panel-trailer"
+      class="hidden reveal rounded-xl border border-[#313244] bg-[#0d0d14] overflow-hidden"
+      style="box-shadow: 0 0 60px rgba(137,220,235,0.07), 0 25px 60px rgba(0,0,0,0.6);"
+    >
+      <!-- Window chrome (same style) -->
+      <div
+        class="flex items-center gap-3 px-4 py-2.5 bg-[#181825] border-b border-[#313244]"
+      >
+        <span class="w-3 h-3 rounded-full bg-[#f38ba8]"></span>
+        <span class="w-3 h-3 rounded-full bg-[#f9e2af]"></span>
+        <span class="w-3 h-3 rounded-full bg-[#a6e3a1]"></span>
+        <div class="flex-1 flex items-center justify-center gap-3 text-xs">
+          <span class="text-[#89dceb] font-bold">⚡ SNAG</span>
+          <span class="text-[#45475a]">snag — trailer v1.0.1</span>
+        </div>
+      </div>
+      <!-- Video -->
+      <div class="relative bg-[#080910]">
+        <video
+          id="trailer-video"
+          class="w-full block"
+          controls
+          preload="metadata"
+          poster=""
+        >
+          <source src={trailerUrl} type="video/mp4" />
+          <source src={trailerUrl} type="video/quicktime" />
+          <p class="text-[#585b70] text-xs text-center py-12">
+            Your browser does not support this video format.
+          </p>
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .snag-scroll::-webkit-scrollbar {
+    width: 3px;
+  }
+  .snag-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .snag-scroll::-webkit-scrollbar-thumb {
+    background: #313244;
+    border-radius: 2px;
+  }
+  .tab-active {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+  .tab-inactive {
+    background: transparent;
+    color: #585b70;
+  }
+  .tab-inactive:hover {
+    color: #6c7086;
+  }
+  #trailer-video:focus {
+    outline: none;
+  }
+</style>
+
+<script>
+  function switchTab(tab: string) {
+    const demo = document.getElementById("panel-demo");
+    const trailer = document.getElementById("panel-trailer");
+    const tabDemo = document.getElementById("tab-demo");
+    const tabTrailer = document.getElementById("tab-trailer");
+    const video = document.getElementById(
+      "trailer-video",
+    ) as HTMLVideoElement | null;
+
+    if (tab === "demo") {
+      demo?.classList.remove("hidden");
+      trailer?.classList.add("hidden");
+      tabDemo?.classList.replace("tab-inactive", "tab-active");
+      tabTrailer?.classList.replace("tab-active", "tab-inactive");
+      video?.pause();
+    } else {
+      demo?.classList.add("hidden");
+      trailer?.classList.remove("hidden");
+      tabDemo?.classList.replace("tab-active", "tab-inactive");
+      tabTrailer?.classList.replace("tab-inactive", "tab-active");
+      video?.play();
+    }
+  }
+  (window as any).switchTab = switchTab;
+
+  // Default volume
+  const vid = document.getElementById(
+    "trailer-video",
+  ) as HTMLVideoElement | null;
+  if (vid) vid.volume = 0.5;
+</script>

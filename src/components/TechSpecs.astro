@@ -1,0 +1,201 @@
+---
+const specs = [
+  {
+    icon: "🛠️",
+    label: "Built with Go",
+    sub: "+ Bubble Tea",
+    desc: "Compiled, single binary. No runtime required. Drop it in your PATH and go.",
+    accent: "#89dceb",
+  },
+  {
+    icon: "⚡",
+    label: "Ultra-lightweight",
+    sub: "Zero heavy deps",
+    desc: "No Electron, no Node, no Python. A single small binary that starts in milliseconds.",
+    accent: "#a6e3a1",
+  },
+  {
+    icon: "🖥",
+    label: "Cross-platform",
+    sub: "macOS · Windows · Linux",
+    desc: "Tested on macOS, Windows and major Linux distros. Install via Homebrew, Scoop or build from source.",
+    accent: "#89b4fa",
+  },
+  {
+    icon: "📄",
+    label: "OpenAPI 3.x",
+    sub: "Any generator",
+    desc: "Supports JSON and YAML specs from FastAPI, Swagger, Redoc, and any compliant generator.",
+    accent: "#f9e2af",
+  },
+];
+---
+
+<section id="specs" class="py-24 px-4 relative overflow-hidden">
+  <!-- BG decoration -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div
+      class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[#89b4fa]/5 blur-[100px]"
+    >
+    </div>
+  </div>
+
+  <div class="max-w-5xl mx-auto relative z-10">
+    <!-- Header -->
+    <div class="text-center mb-16 reveal">
+      <p
+        class="text-xs text-[#89b4fa] tracking-widest uppercase mb-3 font-medium"
+      >
+        // Under the Hood
+      </p>
+      <h2 class="text-3xl md:text-4xl font-bold text-[#cdd6f4]">
+        Technical Specs
+      </h2>
+      <p class="text-[#585b70] text-sm mt-3">
+        Engineered for performance and simplicity.
+      </p>
+    </div>
+
+    <!-- Specs grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+      {
+        specs.map((s, i) => (
+          <div
+            class="reveal group p-5 rounded-xl border border-[#313244] bg-[#0d0d14] hover:scale-[1.02] transition-all duration-300 cursor-default"
+            style={`animation-delay: ${i * 100}ms;`}
+          >
+            <div class="text-3xl mb-3">{s.icon}</div>
+            <div class="font-bold text-[#cdd6f4] text-sm mb-0.5">{s.label}</div>
+            <div
+              class="text-[10px] font-mono px-2 py-0.5 rounded-full border inline-block mb-3"
+              style={`background: ${s.accent}10; border-color: ${s.accent}30; color: ${s.accent};`}
+            >
+              {s.sub}
+            </div>
+            <p class="text-[#585b70] text-xs leading-relaxed">{s.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Install methods -->
+    <div
+      class="reveal rounded-2xl border border-[#313244] bg-[#0d0d14] overflow-hidden"
+    >
+      <div class="px-6 py-4 border-b border-[#313244] flex items-center gap-3">
+        <span class="text-[#89dceb] text-sm">$</span>
+        <span class="text-[#585b70] text-xs uppercase tracking-widest"
+          >Installation</span
+        >
+      </div>
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#313244]"
+      >
+        <!-- Homebrew -->
+        <div class="p-6 flex flex-col gap-3">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-base">🍺</span>
+            <span class="text-[#cdd6f4] text-sm font-semibold">Homebrew</span>
+            <span
+              class="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-[#a6e3a1]/10 text-[#a6e3a1] border border-[#a6e3a1]/20"
+              >macOS / Linux</span
+            >
+          </div>
+          <div class="flex flex-col gap-2 font-mono text-xs">
+            <div
+              class="flex items-start gap-3 px-3 py-2 rounded-lg bg-[#0a0f1e] border border-[#313244]"
+            >
+              <span class="text-[#89dceb] shrink-0 mt-0.5">$</span>
+              <span class="text-[#cdd6f4]">brew install 4nddrs/tap/snag</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-base">🍨</span>
+            <span class="text-[#cdd6f4] text-sm font-semibold">Scoop</span>
+            <span
+              class="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-[#89dceb]/10 text-[#89dceb] border border-[#89dceb]/20"
+              >Windows</span
+            >
+          </div>
+          <div class="flex flex-col gap-2 font-mono text-xs">
+            <div
+              class="flex items-start gap-3 px-3 py-2 rounded-lg bg-[#0a0f1e] border border-[#313244]"
+            >
+              <span class="text-[#89dceb] shrink-0 mt-0.5">$</span>
+              <span class="text-[#cdd6f4]"
+                >scoop bucket add <span class="text-[#f9e2af]">4nddrs</span>
+                <span class="text-[#585b70] text-[11px]"
+                  >https://github.com/4nddrs/scoop-bucket</span
+                ></span
+              >
+            </div>
+            <div
+              class="flex items-start gap-3 px-3 py-2 rounded-lg bg-[#0a0f1e] border border-[#313244]"
+            >
+              <span class="text-[#89dceb] shrink-0 mt-0.5">$</span>
+              <span class="text-[#cdd6f4]"
+                >scoop install <span class="text-[#a6e3a1]">snag</span></span
+              >
+            </div>
+          </div>
+          <!-- Go install -->
+          <div class="flex items-center gap-2 mb-1 mt-1">
+            💨
+            <span class="text-[#cdd6f4] text-sm font-semibold">Go</span>
+            <span
+              class="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-[#f9e2af]/10 text-[#f9e2af] border border-[#f9e2af]/20"
+              >All platforms</span
+            >
+          </div>
+          <div class="flex flex-col gap-2 font-mono text-xs">
+            <div
+              class="flex items-start gap-3 px-3 py-2 rounded-lg bg-[#0a0f1e] border border-[#313244]"
+            >
+              <span class="text-[#89dceb] shrink-0 mt-0.5">$</span>
+              <span class="text-[#cdd6f4]"
+                >go install <span class="text-[#585b70] text-[12px]"
+                  >github.com/4nddrs/snag@latest</span
+                
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Source -->
+        <div class="p-6 flex flex-col gap-3">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-base">🔧</span>
+            <span class="text-[#cdd6f4] text-sm font-semibold">From Source</span
+            >
+            <span
+              class="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-[#89b4fa]/10 text-[#89b4fa] border border-[#89b4fa]/20"
+              >Go 1.21+</span
+            >
+          </div>
+          <div class="flex flex-col gap-2 font-mono text-xs">
+            <div
+              class="flex items-start gap-3 px-3 py-2 rounded-lg bg-[#0a0f1e] border border-[#313244]"
+            >
+              <span class="text-[#89dceb] shrink-0 mt-0.5">$</span>
+              <span class="text-[#cdd6f4]"
+                >git clone github.com/4nddrs/snag</span
+              >
+            </div>
+            <div
+              class="flex items-start gap-3 px-3 py-2 rounded-lg bg-[#0a0f1e] border border-[#313244]"
+            >
+              <span class="text-[#89dceb] shrink-0 mt-0.5">$</span>
+              <span class="text-[#cdd6f4]">cd snag &amp;&amp; go build .</span>
+            </div>
+            <div
+              class="flex items-start gap-3 px-3 py-2 rounded-lg bg-[#0a0f1e] border border-[#313244]"
+            >
+              <span class="text-[#89dceb] shrink-0 mt-0.5">$</span>
+              <span class="text-[#cdd6f4]">./snag &lt;https://api.url/&gt;</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

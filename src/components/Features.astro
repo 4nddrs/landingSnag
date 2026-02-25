@@ -1,0 +1,127 @@
+---
+const features = [
+  {
+    icon: '⌨',
+    color: 'cyan',
+    accent: '#89dceb',
+    accentDim: '#0e7490',
+    tag: 'Navigation',
+    title: 'Vim-Style Navigation',
+    desc: 'Your hands never leave the home row. Navigate endpoints with <kbd class="kbd">j/k</kbd>, select with <kbd class="kbd">↵</kbd>, and jump to any section with Vim motions you already know.',
+    details: [
+      { key: 'j / k',     val: 'Navigate up & down' },
+      { key: '/',   val: 'Search a endpoint' },
+      { key: 'tab',    val: 'Switch between sections' },
+      { key: 'e',    val: 'Edit the prompt' },
+      { key: 'r',    val: 'Execute request' },
+      { key: 'q',        val: 'Close / quit' },
+    ],
+    quote: 'Keep your hands on the home row.',
+  },
+  {
+    icon: '⚙',
+    color: 'blue',
+    accent: '#89b4fa',
+    accentDim: '#1d4ed8',
+    tag: 'Compatibility',
+    title: 'Universal OpenAPI',
+    desc: 'Feed it any OpenAPI 3.x spec — local file or remote URL — generated from Python, Go, Node, Rust, or any other stack. SNAG parses it instantly and surfaces every endpoint, schema, and parameter.',
+    details: [
+      { key: 'FastAPI',  val: 'Python 🐍' },
+      { key: 'Echo',     val: 'Go 🔵' },
+      { key: 'Express',  val: 'Node.js 🟩' },
+      { key: 'Axum',     val: 'Rust 🦀' },
+    ],
+    quote: 'One tool. Every backend.',
+  },
+  {
+    icon: '✦',
+    color: 'green',
+    accent: '#a6e3a1',
+    accentDim: '#059669',
+    tag: 'DX',
+    title: 'No-JSON Editing',
+    desc: 'Forget crafting JSON payloads by hand. SNAG introspects your OpenAPI schema and renders interactive prompts for every parameter — the right type, validated on the spot.',
+    details: [
+      { key: 'path',    val: 'Auto-filled from spec' },
+      { key: 'query',   val: 'Type-safe input prompts' },
+      { key: 'body',    val: 'Field-by-field editing' },
+      { key: 'headers', val: 'Persistent across requests' },
+    ],
+    quote: 'Edit parameters through prompts, not manual JSON syntax.',
+  },
+];
+---
+
+<section id="features" class="py-24 px-4">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Header -->
+    <div class="text-center mb-16 reveal">
+      <p class="text-xs text-[#a6e3a1] tracking-widest uppercase mb-3 font-medium">// Why SNAG</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-[#cdd6f4]">Built for the terminal-native</h2>
+      <p class="text-[#585b70] text-sm mt-3 max-w-md mx-auto">No browser tabs. No heavy GUI. Pure keyboard-driven API exploration.</p>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {features.map((f, i) => (
+        <div
+          class={`reveal group flex flex-col gap-5 p-6 rounded-2xl border border-[#313244] bg-[#0d0d14] hover:border-opacity-60 transition-all duration-300`}
+          style={`animation-delay: ${i * 120}ms; --accent: ${f.accent};`}
+        >
+          <!-- Icon + tag -->
+          <div class="flex items-start justify-between">
+            <div
+              class="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold border"
+              style={`background: ${f.accent}15; border-color: ${f.accent}30; color: ${f.accent};`}
+            >
+              {f.icon}
+            </div>
+            <span
+              class="text-[10px] font-medium px-2 py-1 rounded-full border"
+              style={`background: ${f.accent}10; border-color: ${f.accent}25; color: ${f.accent};`}
+            >
+              {f.tag}
+            </span>
+          </div>
+
+          <!-- Title & desc -->
+          <div>
+            <h3 class="text-[#cdd6f4] font-bold text-base mb-2">{f.title}</h3>
+            <p class="text-[#585b70] text-sm leading-relaxed" set:html={f.desc} />
+          </div>
+
+          <!-- Details list -->
+          <ul class="flex flex-col gap-1.5">
+            {f.details.map(d => (
+              <li class="flex items-center justify-between text-xs py-1 border-b border-[#313244]/60 last:border-0">
+                <code style={`color: ${f.accent};`} class="text-[11px] font-mono">{d.key}</code>
+                <span class="text-[#585b70]">{d.val}</span>
+              </li>
+            ))}
+          </ul>
+
+          <!-- Quote -->
+          <div
+            class="mt-auto pt-4 border-t border-[#313244] text-xs italic leading-relaxed"
+            style={`color: ${f.accent}99;`}
+          >
+            "{f.quote}"
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .kbd {
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid #313244;
+    background: #181825;
+    color: #89b4fa;
+    font-style: normal;
+  }
+</style>
